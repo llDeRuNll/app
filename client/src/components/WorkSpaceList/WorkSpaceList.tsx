@@ -1,5 +1,5 @@
-const WorkSpaceList = () => {
-  return <div>WorkSpaceList</div>;
+const WorkspaceList = () => {
+  return <div>WorkspaceList</div>;
 };
 
-export default WorkSpaceList;
+export default WorkspaceList;

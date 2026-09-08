@@ -1,5 +1,5 @@
-const WorkSpaceView = () => {
-  return <div>WorkSpaceView</div>;
+const WorkspaceView = () => {
+  return <div>WorkspaceView</div>;
 };
 
-export default WorkSpaceView;
+export default WorkspaceView;

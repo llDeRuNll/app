@@ -1,10 +1,10 @@
 import "./App.css";
-import WelcomePage from "./pages/WelcomePage/WelcomePage";
+import WorkspacePage from "./pages/WelcomePage/WorkspacePage";
 
 function App() {
   return (
     <>
-      <WelcomePage />
+      <WorkspacePage />
     </>
   );
 }
