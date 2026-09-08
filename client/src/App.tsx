@@ -1,7 +1,12 @@
 import "./App.css";
+import WorkspacePage from "./pages/WorkspacePage/WorkspacePage";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <WorkspacePage />
+    </>
+  );
 }
 
 export default App;

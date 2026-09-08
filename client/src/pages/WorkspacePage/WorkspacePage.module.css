@@ -1,0 +1,16 @@
+.workspacePage {
+  min-height: 100vh;
+  padding: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .workspacePage {
+    padding: 32px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .workspacePage {
+    padding: 40px;
+  }
+}

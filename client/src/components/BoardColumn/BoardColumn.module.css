@@ -1,0 +1,25 @@
+.board {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #e9ebee;
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media screen and (min-width: 768px) {
+  .board {
+    width: 280px;
+    min-width: 280px;
+  }
+}
