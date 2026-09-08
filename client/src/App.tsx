@@ -1,5 +1,5 @@
 import "./App.css";
-import WorkspacePage from "./pages/WelcomePage/WorkspacePage";
+import WorkspacePage from "./pages/WorkspacePage/WorkspacePage";
 
 function App() {
   return (
