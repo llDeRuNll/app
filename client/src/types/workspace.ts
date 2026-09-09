@@ -13,3 +13,7 @@ export interface Workspace {
   name: string;
   boards: Board[];
 }
+
+export interface WorkspaceData {
+  workspaces: Workspace[];
+}

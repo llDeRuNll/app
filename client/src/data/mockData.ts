@@ -1,4 +1,6 @@
-export const mockData = {
+import type { WorkspaceData } from "../types/workspace";
+
+export const mockData: WorkspaceData = {
   workspaces: [
     {
       id: "w1",
