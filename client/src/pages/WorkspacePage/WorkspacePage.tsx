@@ -1,24 +1,21 @@
-import { useState } from "react";
-import WorkspaceView from "../../components/WorkspaceView/WorkspaceView";
-import { mockData } from "../../data/mockData";
 import s from "./WorkspacePage.module.css";
-import WorkspaceList from "../../components/WorkspaceList/WorkspaceList";
+import WorkspaceList from "../../components/WorkspaceList/WorkSpaceList";
+import WorkspaceView from "../../components/WorkspaceView/WorkSpaceView";
+import useWorkspaceState from "../../hooks/useWorkspaceState";
+import useWorkspaceSelection from "../../hooks/useWorkspaceSelection";
 
 const WorkspacePage = () => {
-  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(
-    mockData.workspaces[0].id,
-  );
+  const { data } = useWorkspaceState();
 
-  const selectedWorkspace = mockData.workspaces.find(
-    (workspace) => workspace.id === selectedWorkspaceId,
-  );
+  const { selectWorkspace, selectedWorkspaceId, selectedWorkspace } =
+    useWorkspaceSelection(data.workspaces);
 
   return (
     <div className={s.workspacePage}>
       <WorkspaceList
-        workspaces={mockData.workspaces}
+        workspaces={data.workspaces}
         selectedWorkspaceId={selectedWorkspaceId}
-        onSelect={setSelectedWorkspaceId}
+        onSelect={selectWorkspace}
       />
       {selectedWorkspace && <WorkspaceView workspace={selectedWorkspace} />}
     </div>
