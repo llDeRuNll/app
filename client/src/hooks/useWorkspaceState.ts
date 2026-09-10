@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { mockData } from "../data/mockData";
 import type { WorkspaceData, Workspace, Board, Task } from "../types/workspace";
+import { moveItem } from "../utils/moveItem";
 
 const useWorkspaceState = () => {
   const [data, setData] = useState<WorkspaceData>(mockData);
@@ -117,6 +118,23 @@ const useWorkspaceState = () => {
       ),
     }));
   };
+  const reorderBoards = (
+    workspaceId: string,
+    fromIndex: number,
+    toIndex: number,
+  ) => {
+    setData((prevData) => ({
+      ...prevData,
+      workspaces: prevData.workspaces.map((workspace) =>
+        workspace.id === workspaceId
+          ? {
+              ...workspace,
+              boards: moveItem(workspace.boards, fromIndex, toIndex),
+            }
+          : workspace,
+      ),
+    }));
+  };
   return {
     data,
     addWorkspace,
@@ -126,6 +144,7 @@ const useWorkspaceState = () => {
     deleteWorkspace,
     editBoard,
     deleteBoard,
+    reorderBoards,
   };
 };
 export default useWorkspaceState;
