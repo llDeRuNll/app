@@ -1,0 +1,46 @@
+.message {
+  margin: 0 0 24px;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancelButton {
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  color: #1f2937;
+}
+
+.confirmButton {
+  border: 1px solid #1f2937;
+  background-color: #1f2937;
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    width: auto;
+  }
+}

@@ -2,15 +2,18 @@ import { useState } from "react";
 import type { Workspace } from "../types/workspace";
 
 const useWorkspaceSelection = (workspaces: Workspace[]) => {
-  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(
-    workspaces[0].id,
+  const [selectedId, setSelectedId] = useState<string | null>(
+    workspaces[0]?.id ?? null,
   );
 
-  const selectedWorkspace = workspaces.find(
-    (workspace) => workspace.id === selectedWorkspaceId,
-  );
+  const selectedWorkspace =
+    workspaces.find((workspace) => workspace.id === selectedId) ??
+    workspaces[0];
+
+  const selectedWorkspaceId = selectedWorkspace?.id ?? null;
+
   const selectWorkspace = (id: string) => {
-    setSelectedWorkspaceId(id);
+    setSelectedId(id);
   };
 
   return {
