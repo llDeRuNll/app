@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #374151;
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: #ff0000;
+}
+
+.button {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #263346;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .button {
+    align-self: flex-end;
+    width: auto;
+  }
+}

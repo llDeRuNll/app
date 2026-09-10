@@ -3,7 +3,7 @@ import s from "./WorkspaceList.module.css";
 
 interface WorkspaceListProps {
   workspaces: Workspace[];
-  selectedWorkspaceId: string;
+  selectedWorkspaceId: string | null;
   onSelect: (id: string) => void;
 }
 
