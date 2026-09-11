@@ -1,12 +1,13 @@
 import s from "./WorkspacePage.module.css";
 import WorkspaceList from "../../components/WorkspaceList/WorkSpaceList";
 import WorkspaceView from "../../components/WorkspaceView/WorkSpaceView";
-import useWorkspaceState from "../../hooks/useWorkspaceState";
+import useWorkspaceState from "../../stores/workspaceStore";
 import useWorkspaceSelection from "../../hooks/useWorkspaceSelection";
 import useWorkspaceModal from "../../hooks/useWorkspaceModal";
 import NameFormModal from "../../shared/ui/NameFormModal/NameFormModal";
-import { validateWorkspaceName } from "../../utils/validateWorkspaceName";
 import ConfirmModal from "../../shared/ui/ConfirmModal/ConfirmModal";
+import { workspaceSchema } from "../../schemas/workspaceSchema";
+import { boardSchema } from "../../schemas/boardSchema";
 
 const WorkspacePage = () => {
   const {
@@ -40,6 +41,10 @@ const WorkspacePage = () => {
     closeModal,
   } = useWorkspaceModal();
 
+  const activeBoard = selectedWorkspace?.boards.find(
+    (board) => board.id === activeBoardId,
+  );
+
   const handleEditWorkspace = (name: string) => {
     if (!selectedWorkspace) return;
 
@@ -52,7 +57,11 @@ const WorkspacePage = () => {
     deleteWorkspace(selectedWorkspace.id);
     closeModal();
   };
+  const handleAddBoard = (name: string) => {
+    if (!selectedWorkspace) return;
 
+    addBoard(selectedWorkspace.id, name);
+  };
   const handleAddTask = (boardId: string) => {
     if (!selectedWorkspace) return;
 
@@ -64,10 +73,6 @@ const WorkspacePage = () => {
 
     reorderBoards(selectedWorkspace.id, fromIndex, toIndex);
   };
-
-  const activeBoard = selectedWorkspace?.boards.find(
-    (board) => board.id === activeBoardId,
-  );
 
   return (
     <div className={s.workspacePage}>
@@ -126,7 +131,7 @@ const WorkspacePage = () => {
         title="Create workspace"
         submitText="Create"
         confirmText="Create"
-        validate={validateWorkspaceName}
+        schema={workspaceSchema}
         confirmMessage={(name) => `Create workspace "${name}"?`}
         onConfirm={addWorkspace}
         onClose={closeModal}
@@ -138,7 +143,7 @@ const WorkspacePage = () => {
         initialValue={selectedWorkspace?.name}
         submitText="Save"
         confirmText="Save"
-        validate={validateWorkspaceName}
+        schema={workspaceSchema}
         confirmMessage={(name) => `Change workspace name to "${name}"?`}
         onConfirm={handleEditWorkspace}
         onClose={closeModal}
@@ -148,12 +153,9 @@ const WorkspacePage = () => {
         title="Create column"
         submitText="Create"
         confirmText="Create"
+        schema={boardSchema}
         confirmMessage={(name) => `Create column "${name}"?`}
-        onConfirm={(name) => {
-          if (!selectedWorkspace) return;
-
-          addBoard(selectedWorkspace.id, name);
-        }}
+        onConfirm={handleAddBoard}
         onClose={closeModal}
       />
       <NameFormModal
@@ -162,6 +164,7 @@ const WorkspacePage = () => {
         initialValue={activeBoard?.name}
         submitText="Save"
         confirmText="Save"
+        schema={boardSchema}
         confirmMessage={(name) => `Change column name to "${name}"?`}
         onConfirm={(name) => {
           if (!selectedWorkspace || !activeBoardId) return;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "../Modal/Modal";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import NameForm from "../NameForm/NameForm";
+import NameForm, { type NameFormSchema } from "../NameForm/NameForm";
 
 interface NameFormModalProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface NameFormModalProps {
   submitText: string;
   confirmText: string;
   confirmMessage: (name: string) => string;
-  validate?: (name: string) => string | null;
+  schema: NameFormSchema;
   onConfirm: (name: string) => void;
   onClose: () => void;
 }
@@ -22,7 +22,7 @@ const NameFormModal = ({
   submitText,
   confirmText,
   confirmMessage,
-  validate,
+  schema,
   onConfirm,
   onClose,
 }: NameFormModalProps) => {
@@ -59,7 +59,7 @@ const NameFormModal = ({
         <NameForm
           initialValue={initialValue}
           submitText={submitText}
-          validate={validate}
+          schema={schema}
           onSubmit={handleSubmit}
         />
       </Modal>

@@ -1,11 +1,21 @@
-import { useState } from "react";
+import type { ZodObject, ZodString } from "zod";
 import s from "./NameForm.module.css";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+export interface NameFormValues {
+  name: string;
+}
+
+export type NameFormSchema = ZodObject<{
+  name: ZodString;
+}>;
 
 interface NameFormProps {
   initialValue?: string;
   placeholder?: string;
   submitText: string;
-  validate?: (value: string) => string | null;
+  schema: NameFormSchema;
   onSubmit: (value: string) => void;
 }
 
@@ -13,44 +23,32 @@ const NameForm = ({
   initialValue = "",
   placeholder = "Enter name",
   submitText,
-  validate,
+  schema,
   onSubmit,
 }: NameFormProps) => {
-  const [name, setName] = useState(initialValue);
-  const [error, setError] = useState<string | null>(null);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NameFormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: initialValue,
+    },
+  });
   return (
     <form
       className={s.form}
-      onSubmit={(event) => {
-        event.preventDefault();
-
-        const validationError = validate?.(name) ?? null;
-
-        if (validationError) {
-          setError(validationError);
-          return;
-        }
-
-        setError(null);
-        onSubmit(name);
-      }}
+      onSubmit={handleSubmit((data) => onSubmit(data.name))}
     >
       <input
         className={s.input}
         type="text"
-        value={name}
         placeholder={placeholder}
-        onChange={(event) => {
-          setName(event.target.value);
-
-          if (error) {
-            setError(null);
-          }
-        }}
+        {...register("name")}
       />
 
-      {error && <p className={s.error}>{error}</p>}
+      {errors.name && <p className={s.error}>{errors.name.message}</p>}
 
       <button className={s.button} type="submit">
         {submitText}
