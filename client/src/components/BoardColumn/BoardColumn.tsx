@@ -1,37 +1,46 @@
+import { memo } from "react";
 import type { Board } from "../../types/workspace";
 import TaskCard from "../TaskCard/TaskCard";
 import s from "./BoardColumn.module.css";
 
 interface BoardProps {
   board: Board;
-  onEdit: () => void;
-  onDelete: () => void;
-  onAddTask: () => void;
-  onMoveLeft: () => void;
-  onMoveRight: () => void;
-  canMoveLeft: boolean;
-  canMoveRight: boolean;
+  index: number;
+  boardsCount: number;
+  onEditBoard: (boardId: string) => void;
+  onDeleteBoard: (boardId: string) => void;
+  onAddTask: (boardId: string) => void;
+  onReorderBoard: (fromIndex: number, toIndex: number) => void;
 }
 
 const BoardColumn = ({
   board,
-  onEdit,
-  onDelete,
-  onMoveLeft,
-  onMoveRight,
+  index,
+  boardsCount,
+  onEditBoard,
+  onDeleteBoard,
+  onReorderBoard,
   onAddTask,
-  canMoveLeft,
-  canMoveRight,
 }: BoardProps) => {
+  const canMoveLeft = index > 0;
+  const canMoveRight = index < boardsCount - 1;
   return (
     <div className={s.board}>
       <div className={s.header}>
         <h2 className={s.title}>{board.name}</h2>
         <div className={s.actions}>
-          <button type="button" onClick={onEdit} className={s.editButton}>
+          <button
+            type="button"
+            onClick={() => onEditBoard(board.id)}
+            className={s.editButton}
+          >
             Edit
           </button>
-          <button type="button" onClick={onDelete} className={s.deleteButton}>
+          <button
+            type="button"
+            onClick={() => onDeleteBoard(board.id)}
+            className={s.deleteButton}
+          >
             Delete
           </button>
         </div>
@@ -41,14 +50,18 @@ const BoardColumn = ({
           <TaskCard key={task.id} task={task} />
         ))}
       </div>
-      <button type="button" className={s.addTaskButton} onClick={onAddTask}>
+      <button
+        type="button"
+        className={s.addTaskButton}
+        onClick={() => onAddTask(board.id)}
+      >
         + Add task
       </button>
       <div className={s.reorderActions}>
         <button
           type="button"
           className={s.moveButton}
-          onClick={onMoveLeft}
+          onClick={() => onReorderBoard(index, index - 1)}
           disabled={!canMoveLeft}
           aria-label="Move column left"
         >
@@ -58,7 +71,7 @@ const BoardColumn = ({
         <button
           type="button"
           className={s.moveButton}
-          onClick={onMoveRight}
+          onClick={() => onReorderBoard(index, index + 1)}
           disabled={!canMoveRight}
           aria-label="Move column right"
         >
@@ -69,4 +82,4 @@ const BoardColumn = ({
   );
 };
 
-export default BoardColumn;
+export default memo(BoardColumn);
