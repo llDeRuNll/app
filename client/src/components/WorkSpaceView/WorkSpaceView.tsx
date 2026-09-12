@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Workspace } from "../../types/workspace";
 import BoardColumn from "../BoardColumn/BoardColumn";
 import s from "./WorkspaceView.module.css";
@@ -25,13 +26,12 @@ const WorkspaceView = ({
           <BoardColumn
             key={board.id}
             board={board}
-            onEdit={() => onEditBoard(board.id)}
-            onDelete={() => onDeleteBoard(board.id)}
-            onAddTask={() => onAddTask(board.id)}
-            onMoveLeft={() => onReorderBoard(index, index - 1)}
-            onMoveRight={() => onReorderBoard(index, index + 1)}
-            canMoveLeft={index > 0}
-            canMoveRight={index < workspace.boards.length - 1}
+            index={index}
+            boardsCount={workspace.boards.length}
+            onEditBoard={onEditBoard}
+            onDeleteBoard={onDeleteBoard}
+            onAddTask={onAddTask}
+            onReorderBoard={onReorderBoard}
           />
         ))}
       </div>
@@ -39,4 +39,4 @@ const WorkspaceView = ({
   );
 };
 
-export default WorkspaceView;
+export default memo(WorkspaceView);
