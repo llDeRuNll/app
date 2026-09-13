@@ -1,10 +1,11 @@
 import s from "./WorkspacePage.module.css";
-import WorkspaceList from "../../components/WorkspaceList/WorkSpaceList";
-import WorkspaceView from "../../components/WorkspaceView/WorkSpaceView";
+
 import useWorkspaceSelection from "../../hooks/useWorkspaceSelection";
 import useWorkspaceStore from "../../stores/workspaceStore";
 import useWorkspaceActions from "../../hooks/useWorkspaceActions";
 import PopupRenderer from "../../popups/PopupRenderer";
+import WorkspaceList from "../../components/WorkspaceList/WorkspaceList";
+import WorkSpaceView from "../../components/WorkspaceView/WorkspaceView";
 
 const WorkspacePage = () => {
   const workspaces = useWorkspaceStore((state) => state.data.workspaces);
@@ -67,7 +68,7 @@ const WorkspacePage = () => {
         onSelect={selectWorkspace}
       />
       {selectedWorkspace && (
-        <WorkspaceView
+        <WorkSpaceView
           workspace={selectedWorkspace}
           onEditBoard={handleEditBoard}
           onDeleteBoard={handleDeleteBoard}
