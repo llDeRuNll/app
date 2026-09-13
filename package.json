@@ -1,0 +1,13 @@
+{
+  "name": "workspace-board-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:client": "npm run dev --workspace=client",
+    "dev:api": "npm run start:dev --workspace=api",
+    "build:client": "npm run build --workspace=client",
+    "build:api": "npm run build --workspace=api"
+  }
+}
