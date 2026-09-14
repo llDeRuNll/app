@@ -7,7 +7,7 @@ import {
   CreateBoardPopup,
   EditBoardPopup,
   DeleteBoardPopup,
-} from "./WorkspacePopus";
+} from "./WorkspacePopups";
 
 export const PopupType = {
   CREATE_WORKSPACE: "create-workspace",
