@@ -74,7 +74,7 @@ model Task {
   title     String
   boardId   String
   createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAt()
+  updatedAt temporal.updatedAtString()
 
   board   Board  @relation(
     fields: [boardId],
