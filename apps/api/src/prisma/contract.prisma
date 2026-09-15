@@ -4,8 +4,8 @@ model User {
   id           String  @id @default(uuid())
   email        String   @unique
   passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    temporal.updatedAt()
+  createdAt    TimestamptzString @default(now())
+  updatedAt    temporal.updatedAtString()
 
   ownedWorkspaces Workspace[]       @relation("WorkspaceOwner")
   memberships    WorkspaceMember[]
@@ -15,8 +15,8 @@ model Workspace {
   id        String  @id @default(uuid())
   name      String
   ownerId   String
-  createdAt DateTime @default(now())
-  updatedAt temporal.updatedAt()
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
 
   owner User @relation(
     "WorkspaceOwner",
@@ -34,7 +34,7 @@ model Workspace {
 model WorkspaceMember {
   workspaceId String
   userId      String
-  createdAt   DateTime @default(now())
+  createdAt   TimestamptzString @default(now())
 
   workspace Workspace @relation(
     fields: [workspaceId],
@@ -56,8 +56,8 @@ model Board {
   name        String
   position    Int    
   workspaceId String
-  createdAt   DateTime @default(now())
-  updatedAt   temporal.updatedAt()
+  createdAt   TimestamptzString @default(now())
+  updatedAt   temporal.updatedAtString()
 
   workspace   Workspace @relation(
     fields: [workspaceId],
@@ -72,7 +72,7 @@ model Task {
   id        String @id @default(uuid())
   title     String
   boardId   String
-  createdAt DateTime @default(now())
+  createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAt()
 
   board   Board  @relation(

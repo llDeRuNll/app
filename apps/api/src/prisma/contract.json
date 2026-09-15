@@ -34,7 +34,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -62,7 +62,7 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -144,7 +144,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -215,7 +215,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -243,7 +243,7 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               }
@@ -307,7 +307,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -335,7 +335,7 @@
               "updatedAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               }
@@ -415,7 +415,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -496,7 +496,7 @@
             "board": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -520,7 +520,7 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
@@ -583,7 +583,7 @@
                   "nullable": false
                 },
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -646,7 +646,7 @@
             "user": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -670,7 +670,7 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 }
@@ -693,7 +693,7 @@
             "workspace": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -717,7 +717,7 @@
                   "nullable": false
                 },
                 "updatedAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 }
@@ -761,7 +761,7 @@
             "workspaceMember": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "default": {
                     "expression": "now()",
                     "kind": "function"
@@ -848,10 +848,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "c67a383b4b2f30ca29ca9f5cc292b7b5c1f599723e84b190b47cfa5fc7c8b45d"
+    "storageHash": "168fffa94b22572cc585e019c46dbcb19c0d570a26c80e096b2aa0deaae7bf1f"
   },
   "execution": {
-    "executionHash": "b786f717890bf53d6c7bfb4a22929774e92baca3f6037fc5939e8c846037b0f5",
+    "executionHash": "ee0eaf1094710d907a66fb5a966845bbf683533b8f6e93a16734d2a2c862c9eb",
     "mutations": {
       "defaults": [
         {
@@ -867,11 +867,11 @@
         },
         {
           "onCreate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "ref": {
@@ -919,11 +919,11 @@
         },
         {
           "onCreate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "ref": {
@@ -945,11 +945,11 @@
         },
         {
           "onCreate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "onUpdate": {
-            "id": "instantNow",
+            "id": "timestampNow",
             "kind": "generator"
           },
           "ref": {
