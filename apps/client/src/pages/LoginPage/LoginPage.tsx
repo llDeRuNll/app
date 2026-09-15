@@ -6,7 +6,7 @@ import { loginSchema, type LoginFormData } from "../../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../services/authService";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const navigate = useNavigate();
 
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -80,4 +80,6 @@ export default function LoginPage() {
       </p>
     </main>
   );
-}
+};
+
+export default LoginPage;
