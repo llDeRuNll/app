@@ -9,6 +9,7 @@ model User {
 
   ownedWorkspaces Workspace[]       @relation("WorkspaceOwner")
   memberships    WorkspaceMember[]
+  sessions       AuthSession[]
 }
 
 model Workspace {
@@ -81,4 +82,21 @@ model Task {
     onDelete: Cascade
   )
   @@index([boardId])
+}
+
+model AuthSession {
+  id        String @id @default(uuid())
+  tokenHash String @unique
+  userId    String
+  expiresAt TimestamptzString
+  createdAt TimestamptzString @default(now())
+
+  user User @relation(
+    fields: [userId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@index([userId])
+  @@index([expiresAt])
 }
