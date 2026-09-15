@@ -9,5 +9,8 @@
     "dev:api": "npm run start:dev --workspace=api",
     "build:client": "npm run build --workspace=client",
     "build:api": "npm run build --workspace=api"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true
   }
 }
