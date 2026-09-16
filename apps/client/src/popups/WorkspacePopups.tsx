@@ -22,8 +22,9 @@ export const CreateWorkspacePopup = () => {
       title="Create workspace"
       submitText="Create"
       confirmText="Create"
+      placeholder="Enter workspace title"
       schema={workspaceSchema}
-      confirmMessage={(name) => `Create workspace "${name}"?`}
+      confirmMessage={(name) => `Create workspace to"${name}"?`}
       onConfirm={handleCreate}
       onClose={closePopup}
     />
@@ -56,8 +57,9 @@ export const EditWorkspacePopup = () => {
       initialValue={workspace.name}
       submitText="Save"
       confirmText="Save"
+      placeholder="Change workspace title"
       schema={workspaceSchema}
-      confirmMessage={(name) => `Change workspace name to "${name}"?`}
+      confirmMessage={(name) => `Change workspace title to "${name}"?`}
       onConfirm={handleEdit}
       onClose={closePopup}
     />
@@ -112,6 +114,7 @@ export const CreateBoardPopup = () => {
       title="Create column"
       submitText="Create"
       confirmText="Create"
+      placeholder="Enter column title"
       schema={boardSchema}
       confirmMessage={(name) => `Create column "${name}"?`}
       onConfirm={handleCreate}
@@ -150,8 +153,9 @@ export const EditBoardPopup = () => {
       initialValue={board.name}
       submitText="Save"
       confirmText="Save"
+      placeholder="Edit column title"
       schema={boardSchema}
-      confirmMessage={(name) => `Change column name to "${name}"?`}
+      confirmMessage={(name) => `Change column title to "${name}"?`}
       onConfirm={handleEdit}
       onClose={closePopup}
     />
@@ -213,6 +217,7 @@ export const CreateTaskPopup = () => {
       submitText="Create"
       confirmText="Create"
       schema={taskSchema}
+      placeholder="Create a task"
       confirmMessage={(title) => `Create task "${title}"?`}
       onConfirm={handleCreate}
       onClose={closePopup}
@@ -253,8 +258,9 @@ export const EditTaskPopup = () => {
       initialValue={task.title}
       submitText="Save"
       confirmText="Save"
+      placeholder="Change a task"
       schema={taskSchema}
-      confirmMessage={(title) => `Change task title to "${title}"?`}
+      confirmMessage={(title) => `Change task to "${title}"?`}
       onConfirm={handleEdit}
       onClose={closePopup}
     />
