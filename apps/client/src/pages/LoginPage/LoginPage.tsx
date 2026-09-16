@@ -6,11 +6,14 @@ import { loginSchema, type LoginFormData } from "../../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../services/authService";
 import s from "./LoginPage.module.css";
+import useWorkspaceStore from "../../stores/workspaceStore";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const setAuth = useAuthStore((state) => state.setAuth);
+
+  const resetWorkspace = useWorkspaceStore((state) => state.reset);
 
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -28,6 +31,7 @@ const LoginPage = () => {
     try {
       const result = await authService.login(data);
 
+      resetWorkspace();
       setAuth(result.user, result.accessToken);
 
       navigate("/", {
