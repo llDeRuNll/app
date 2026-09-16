@@ -8,6 +8,10 @@
     "dev:client": "npm run dev --workspace=client",
     "dev:api": "npm run start:dev --workspace=api",
     "build:client": "npm run build --workspace=client",
-    "build:api": "npm run build --workspace=api"
+    "build:api": "npm run build --workspace=api",
+    "lint": "npm run lint --workspace=client && npm run lint --workspace=api"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true
   }
 }

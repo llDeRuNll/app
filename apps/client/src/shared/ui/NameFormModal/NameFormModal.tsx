@@ -11,7 +11,7 @@ interface NameFormModalProps {
   confirmText: string;
   confirmMessage: (name: string) => string;
   schema: NameFormSchema;
-  onConfirm: (name: string) => void;
+  onConfirm: (name: string) => void | Promise<void>;
   onClose: () => void;
 }
 
@@ -35,8 +35,8 @@ const NameFormModal = ({
     setIsConfirmOpen(true);
   };
 
-  const handleConfirm = () => {
-    onConfirm(pendingName);
+  const handleConfirm = async () => {
+    await onConfirm(pendingName);
 
     setPendingName("");
     setIsConfirmOpen(false);

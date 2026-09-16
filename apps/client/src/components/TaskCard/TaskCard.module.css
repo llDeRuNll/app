@@ -6,8 +6,68 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1f2937;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.editButton,
+.deleteButton {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.editButton {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.editButton:hover {
+  background-color: #e5e7eb;
+}
+
+.deleteButton {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.deleteButton:hover {
+  background-color: #fecaca;
+}
+
+.editButton:focus-visible,
+.deleteButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.editButton:disabled,
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media screen and (min-width: 768px) {
   .card {
     font-size: 15px;
+  }
+  .title {
+    font-size: 16px;
   }
 }

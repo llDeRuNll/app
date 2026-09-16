@@ -12,7 +12,7 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
 
   const reorderBoards = useWorkspaceStore((state) => state.reorderBoards);
 
-  const addTask = useWorkspaceStore((state) => state.addTask);
+  const deleteTask = useWorkspaceStore((state) => state.deleteTask);
 
   const handleCreateWorkspace = useCallback(() => {
     openPopup({
@@ -43,8 +43,8 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
         workspaceId,
       },
 
-      onAcceptCallback: () => {
-        deleteWorkspace(workspaceId);
+      onAcceptCallback: async () => {
+        await deleteWorkspace(workspaceId);
       },
     });
   }, [selectedWorkspaceId, openPopup, deleteWorkspace]);
@@ -91,8 +91,8 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
           boardId,
         },
 
-        onAcceptCallback: () => {
-          deleteBoard(workspaceId, boardId);
+        onAcceptCallback: async () => {
+          await deleteBoard(workspaceId, boardId);
         },
       });
     },
@@ -100,10 +100,10 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
   );
 
   const handleReorderBoard = useCallback(
-    (fromIndex: number, toIndex: number) => {
+    async (fromIndex: number, toIndex: number) => {
       if (!selectedWorkspaceId) return;
 
-      reorderBoards(selectedWorkspaceId, fromIndex, toIndex);
+      await reorderBoards(selectedWorkspaceId, fromIndex, toIndex);
     },
     [selectedWorkspaceId, reorderBoards],
   );
@@ -112,9 +112,56 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
     (boardId: string) => {
       if (!selectedWorkspaceId) return;
 
-      addTask(selectedWorkspaceId, boardId, "New task");
+      openPopup({
+        type: PopupType.CREATE_TASK,
+        metadata: {
+          workspaceId: selectedWorkspaceId,
+          boardId,
+        },
+      });
     },
-    [selectedWorkspaceId, addTask],
+    [selectedWorkspaceId, openPopup],
+  );
+  const handleEditTask = useCallback(
+    (boardId: string, taskId: string) => {
+      if (!selectedWorkspaceId) {
+        return;
+      }
+
+      openPopup({
+        type: PopupType.EDIT_TASK,
+        metadata: {
+          workspaceId: selectedWorkspaceId,
+          boardId,
+          taskId,
+        },
+      });
+    },
+    [selectedWorkspaceId, openPopup],
+  );
+
+  const handleDeleteTask = useCallback(
+    (boardId: string, taskId: string) => {
+      if (!selectedWorkspaceId) {
+        return;
+      }
+
+      const workspaceId = selectedWorkspaceId;
+
+      openPopup({
+        type: PopupType.DELETE_TASK,
+        metadata: {
+          workspaceId,
+          boardId,
+          taskId,
+        },
+
+        onAcceptCallback: async () => {
+          await deleteTask(workspaceId, boardId, taskId);
+        },
+      });
+    },
+    [selectedWorkspaceId, openPopup, deleteTask],
   );
 
   return {
@@ -126,6 +173,8 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
     handleDeleteBoard,
     handleReorderBoard,
     handleAddTask,
+    handleDeleteTask,
+    handleEditTask,
   };
 };
 

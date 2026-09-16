@@ -1,13 +1,17 @@
 .workspacePage {
   min-height: 100vh;
-
   padding: 16px;
 }
 .actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 20px;
+}
+.topBar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 .actionButton {
   width: 100%;
@@ -53,9 +57,15 @@
   .workspacePage {
     padding: 32px;
   }
+  .topBar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
   .actions {
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .actionButton {

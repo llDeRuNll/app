@@ -1,25 +1,43 @@
 .workspace {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  margin-top: 24px;
 }
 
 .title {
-  margin: 0 0 20px;
-  font-size: 26px;
+  margin: 0 0 40px;
+  text-align: center;
+  font-size: 32px;
   font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.boardsSection {
+  min-width: 0;
+  flex: 1;
 }
 
 .boards {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 24px;
+}
+
+.sidebar {
+  width: 100%;
 }
 
 @media screen and (min-width: 768px) {
   .title {
-    font-size: 30px;
-    margin-bottom: 24px;
+    font-size: 36px;
+    margin-bottom: 44px;
   }
 
   .boards {
@@ -27,5 +45,27 @@
     align-items: flex-start;
     overflow-x: auto;
     padding-bottom: 12px;
+    overflow-x: auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .content {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .boardsSection {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sidebar {
+    width: 360px;
+    min-width: 360px;
+
+    margin-left: auto;
   }
 }

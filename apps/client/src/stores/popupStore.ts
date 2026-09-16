@@ -1,11 +1,12 @@
 import { create } from "zustand";
-
 import type { PopupMetadata, PopupType } from "../popups/popupConfig";
+
+type AcceptCallback = () => void | Promise<void>;
 
 interface OpenPopupPayload {
   type: PopupType;
   metadata?: PopupMetadata;
-  onAcceptCallback?: () => void;
+  onAcceptCallback?: AcceptCallback;
   onDismissCallback?: () => void;
 }
 
@@ -17,7 +18,7 @@ interface PopupStore {
   onDismissCallback?: () => void;
   openPopup: (payload: OpenPopupPayload) => void;
   closePopup: () => void;
-  handleAccept: () => void;
+  handleAccept: () => Promise<void>;
   handleDismiss: () => void;
 }
 
@@ -46,12 +47,12 @@ const usePopupStore = create<PopupStore>((set, get) => ({
     set(initialState);
   },
 
-  handleAccept: () => {
+  handleAccept: async () => {
     const callback = get().onAcceptCallback;
 
-    set(initialState);
+    await callback?.();
 
-    callback?.();
+    set(initialState);
   },
 
   handleDismiss: () => {
