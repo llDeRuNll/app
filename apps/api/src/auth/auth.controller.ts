@@ -33,11 +33,12 @@ export class AuthController {
 
   private getRefreshCookieOptions(): CookieOptions {
     const nodeEnv = this.configService.getOrThrow<string>('NODE_ENV');
+    const isProduction = nodeEnv === 'production';
 
     return {
       httpOnly: true,
       secure: nodeEnv === 'production',
-      sameSite: 'lax',
+      sameSite: isProduction ? 'none' : 'lax',
       path: REFRESH_COOKIE_PATH,
       maxAge: REFRESH_TOKEN_TTL_MS,
     };
