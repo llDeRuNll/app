@@ -9,6 +9,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../services/authService";
 import s from "./RegisterPage.module.css";
+import axios from "axios";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -36,7 +37,17 @@ const RegisterPage = () => {
       navigate("/", {
         replace: true,
       });
-    } catch {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+
+        setServerError(
+          typeof message === "string" ? message : "Could not create account",
+        );
+
+        return;
+      }
+
       setServerError("Could not create account");
     }
   };

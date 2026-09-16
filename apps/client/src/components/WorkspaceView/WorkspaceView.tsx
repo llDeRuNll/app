@@ -10,7 +10,7 @@ interface WorkspaceViewProps {
   onEditBoard: (boardId: string) => void;
   onDeleteBoard: (boardId: string) => void;
   onReorderBoard: (fromIndex: number, toIndex: number) => Promise<void>;
-  onAddTask: (boardId: string) => Promise<void>;
+  onAddTask: (boardId: string) => void;
   onEditTask: (boardId: string, taskId: string) => void;
   onDeleteTask: (boardId: string, taskId: string) => void;
 }

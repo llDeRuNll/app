@@ -12,8 +12,6 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
 
   const reorderBoards = useWorkspaceStore((state) => state.reorderBoards);
 
-  const addTask = useWorkspaceStore((state) => state.addTask);
-
   const deleteTask = useWorkspaceStore((state) => state.deleteTask);
 
   const handleCreateWorkspace = useCallback(() => {
@@ -111,12 +109,18 @@ const useWorkspaceActions = (selectedWorkspaceId: string | null) => {
   );
 
   const handleAddTask = useCallback(
-    async (boardId: string) => {
+    (boardId: string) => {
       if (!selectedWorkspaceId) return;
 
-      await addTask(selectedWorkspaceId, boardId, "New task");
+      openPopup({
+        type: PopupType.CREATE_TASK,
+        metadata: {
+          workspaceId: selectedWorkspaceId,
+          boardId,
+        },
+      });
     },
-    [selectedWorkspaceId, addTask],
+    [selectedWorkspaceId, openPopup],
   );
   const handleEditTask = useCallback(
     (boardId: string, taskId: string) => {

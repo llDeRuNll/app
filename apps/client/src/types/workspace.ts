@@ -15,6 +15,12 @@ export interface Board {
   tasks: Task[];
 }
 
+export interface WorkspaceMember {
+  userId: string;
+  email: string;
+  createdAt: string;
+}
+
 export interface Workspace {
   id: string;
   name: string;
@@ -22,6 +28,7 @@ export interface Workspace {
   createdAt: string;
   updatedAt: string;
   boards: Board[];
+  members: WorkspaceMember[];
 }
 
 export interface WorkspaceSummary {

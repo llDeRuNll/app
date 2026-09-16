@@ -188,6 +188,38 @@ export const DeleteBoardPopup = () => {
     />
   );
 };
+
+export const CreateTaskPopup = () => {
+  const workspaceId = usePopupStore((state) => state.metadata?.workspaceId);
+
+  const boardId = usePopupStore((state) => state.metadata?.boardId);
+
+  const closePopup = usePopupStore((state) => state.closePopup);
+
+  const addTask = useWorkspaceStore((state) => state.addTask);
+
+  if (!workspaceId || !boardId) {
+    return null;
+  }
+
+  const handleCreate = async (title: string) => {
+    await addTask(workspaceId, boardId, title);
+  };
+
+  return (
+    <NameFormModal
+      isOpen
+      title="Create task"
+      submitText="Create"
+      confirmText="Create"
+      schema={taskSchema}
+      confirmMessage={(title) => `Create task "${title}"?`}
+      onConfirm={handleCreate}
+      onClose={closePopup}
+    />
+  );
+};
+
 export const EditTaskPopup = () => {
   const workspaceId = usePopupStore((state) => state.metadata?.workspaceId);
 
