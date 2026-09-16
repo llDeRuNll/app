@@ -6,6 +6,8 @@ import useWorkspaceActions from "../../hooks/useWorkspaceActions";
 import PopupRenderer from "../../popups/PopupRenderer";
 import WorkspaceList from "../../components/WorkspaceList/WorkspaceList";
 import WorkSpaceView from "../../components/WorkspaceView/WorkspaceView";
+import Loader from "../../shared/Loader/Loader";
+import { useEffect } from "react";
 
 const WorkspacePage = () => {
   const workspaces = useWorkspaceStore((state) => state.data.workspaces);
@@ -13,6 +15,13 @@ const WorkspacePage = () => {
   const { selectedWorkspaceId, selectedWorkspace, selectWorkspace } =
     useWorkspaceSelection(workspaces);
 
+  const loadWorkspaces = useWorkspaceStore((state) => state.loadWorkspaces);
+
+  const loadWorkspace = useWorkspaceStore((state) => state.loadWorkspace);
+
+  const isLoading = useWorkspaceStore((state) => state.isLoading);
+
+  const error = useWorkspaceStore((state) => state.error);
   const {
     handleCreateWorkspace,
     handleEditWorkspace,
@@ -22,7 +31,29 @@ const WorkspacePage = () => {
     handleDeleteBoard,
     handleReorderBoard,
     handleAddTask,
+    handleEditTask,
+    handleDeleteTask,
   } = useWorkspaceActions(selectedWorkspaceId);
+
+  useEffect(() => {
+    void loadWorkspaces();
+  }, [loadWorkspaces]);
+
+  useEffect(() => {
+    if (!selectedWorkspaceId) {
+      return;
+    }
+
+    void loadWorkspace(selectedWorkspaceId);
+  }, [selectedWorkspaceId, loadWorkspace]);
+
+  if (isLoading && workspaces.length === 0) {
+    return <Loader text="Loading workspaces..." size={40} />;
+  }
+
+  if (error && workspaces.length === 0) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className={s.workspacePage}>
@@ -74,6 +105,8 @@ const WorkspacePage = () => {
           onDeleteBoard={handleDeleteBoard}
           onReorderBoard={handleReorderBoard}
           onAddTask={handleAddTask}
+          onEditTask={handleEditTask}
+          onDeleteTask={handleDeleteTask}
         />
       )}
 

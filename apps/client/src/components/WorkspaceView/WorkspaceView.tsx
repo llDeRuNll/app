@@ -7,8 +7,10 @@ interface WorkspaceViewProps {
   workspace: Workspace;
   onEditBoard: (boardId: string) => void;
   onDeleteBoard: (boardId: string) => void;
-  onReorderBoard: (fromIndex: number, toIndex: number) => void;
-  onAddTask: (boardId: string) => void;
+  onReorderBoard: (fromIndex: number, toIndex: number) => Promise<void>;
+  onAddTask: (boardId: string) => Promise<void>;
+  onEditTask: (boardId: string, taskId: string) => void;
+  onDeleteTask: (boardId: string, taskId: string) => void;
 }
 
 const WorkspaceView = ({
@@ -17,6 +19,8 @@ const WorkspaceView = ({
   onDeleteBoard,
   onReorderBoard,
   onAddTask,
+  onEditTask,
+  onDeleteTask,
 }: WorkspaceViewProps) => {
   return (
     <div className={s.workspace}>
@@ -32,6 +36,8 @@ const WorkspaceView = ({
             onDeleteBoard={onDeleteBoard}
             onAddTask={onAddTask}
             onReorderBoard={onReorderBoard}
+            onEditTask={onEditTask}
+            onDeleteTask={onDeleteTask}
           />
         ))}
       </div>

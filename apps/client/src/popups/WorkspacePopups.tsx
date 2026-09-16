@@ -6,12 +6,16 @@ import { workspaceSchema } from "../schemas/workspaceSchema";
 
 import usePopupStore from "../stores/popupStore";
 import useWorkspaceStore from "../stores/workspaceStore";
+import { taskSchema } from "../schemas/taskSchema";
 
 export const CreateWorkspacePopup = () => {
   const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
 
   const closePopup = usePopupStore((state) => state.closePopup);
 
+  const handleCreate = async (name: string) => {
+    await addWorkspace(name);
+  };
   return (
     <NameFormModal
       isOpen
@@ -20,7 +24,7 @@ export const CreateWorkspacePopup = () => {
       confirmText="Create"
       schema={workspaceSchema}
       confirmMessage={(name) => `Create workspace "${name}"?`}
-      onConfirm={addWorkspace}
+      onConfirm={handleCreate}
       onClose={closePopup}
     />
   );
@@ -41,8 +45,8 @@ export const EditWorkspacePopup = () => {
     return null;
   }
 
-  const handleEdit = (name: string) => {
-    editWorkspace(workspaceId, name);
+  const handleEdit = async (name: string) => {
+    await editWorkspace(workspaceId, name);
   };
 
   return (
@@ -98,8 +102,8 @@ export const CreateBoardPopup = () => {
     return null;
   }
 
-  const handleCreate = (name: string) => {
-    addBoard(workspaceId, name);
+  const handleCreate = async (name: string) => {
+    await addBoard(workspaceId, name);
   };
 
   return (
@@ -135,8 +139,8 @@ export const EditBoardPopup = () => {
     return null;
   }
 
-  const handleEdit = (name: string) => {
-    editBoard(workspaceId, boardId, name);
+  const handleEdit = async (name: string) => {
+    await editBoard(workspaceId, boardId, name);
   };
 
   return (
@@ -178,6 +182,80 @@ export const DeleteBoardPopup = () => {
       isOpen
       title="Delete column"
       message={`Are you sure you want to delete "${board.name}"?`}
+      confirmText="Delete"
+      onConfirm={handleAccept}
+      onCancel={handleDismiss}
+    />
+  );
+};
+export const EditTaskPopup = () => {
+  const workspaceId = usePopupStore((state) => state.metadata?.workspaceId);
+
+  const boardId = usePopupStore((state) => state.metadata?.boardId);
+
+  const taskId = usePopupStore((state) => state.metadata?.taskId);
+
+  const closePopup = usePopupStore((state) => state.closePopup);
+
+  const editTask = useWorkspaceStore((state) => state.editTask);
+
+  const task = useWorkspaceStore((state) =>
+    state.data.workspaces
+      .find((workspace) => workspace.id === workspaceId)
+      ?.boards.find((board) => board.id === boardId)
+      ?.tasks.find((task) => task.id === taskId),
+  );
+
+  if (!workspaceId || !boardId || !taskId || !task) {
+    return null;
+  }
+
+  const handleEdit = async (title: string) => {
+    await editTask(workspaceId, boardId, taskId, title);
+  };
+
+  return (
+    <NameFormModal
+      isOpen
+      title="Edit task"
+      initialValue={task.title}
+      submitText="Save"
+      confirmText="Save"
+      schema={taskSchema}
+      confirmMessage={(title) => `Change task title to "${title}"?`}
+      onConfirm={handleEdit}
+      onClose={closePopup}
+    />
+  );
+};
+
+export const DeleteTaskPopup = () => {
+  const workspaceId = usePopupStore((state) => state.metadata?.workspaceId);
+
+  const boardId = usePopupStore((state) => state.metadata?.boardId);
+
+  const taskId = usePopupStore((state) => state.metadata?.taskId);
+
+  const handleAccept = usePopupStore((state) => state.handleAccept);
+
+  const handleDismiss = usePopupStore((state) => state.handleDismiss);
+
+  const task = useWorkspaceStore((state) =>
+    state.data.workspaces
+      .find((workspace) => workspace.id === workspaceId)
+      ?.boards.find((board) => board.id === boardId)
+      ?.tasks.find((task) => task.id === taskId),
+  );
+
+  if (!task) {
+    return null;
+  }
+
+  return (
+    <ConfirmModal
+      isOpen
+      title="Delete task"
+      message={`Are you sure you want to delete "${task.title}"?`}
       confirmText="Delete"
       onConfirm={handleAccept}
       onCancel={handleDismiss}

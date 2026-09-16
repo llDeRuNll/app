@@ -9,8 +9,10 @@ interface BoardProps {
   boardsCount: number;
   onEditBoard: (boardId: string) => void;
   onDeleteBoard: (boardId: string) => void;
-  onAddTask: (boardId: string) => void;
-  onReorderBoard: (fromIndex: number, toIndex: number) => void;
+  onAddTask: (boardId: string) => Promise<void>;
+  onEditTask: (boardId: string, taskId: string) => void;
+  onDeleteTask: (boardId: string, taskId: string) => void;
+  onReorderBoard: (fromIndex: number, toIndex: number) => Promise<void>;
 }
 
 const BoardColumn = ({
@@ -21,6 +23,8 @@ const BoardColumn = ({
   onDeleteBoard,
   onReorderBoard,
   onAddTask,
+  onEditTask,
+  onDeleteTask,
 }: BoardProps) => {
   const canMoveLeft = index > 0;
   const canMoveRight = index < boardsCount - 1;
@@ -47,13 +51,18 @@ const BoardColumn = ({
       </div>
       <div className={s.tasks}>
         {board.tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            onEdit={() => onEditTask(board.id, task.id)}
+            onDelete={() => onDeleteTask(board.id, task.id)}
+          />
         ))}
       </div>
       <button
         type="button"
         className={s.addTaskButton}
-        onClick={() => onAddTask(board.id)}
+        onClick={() => void onAddTask(board.id)}
       >
         + Add task
       </button>
@@ -61,7 +70,7 @@ const BoardColumn = ({
         <button
           type="button"
           className={s.moveButton}
-          onClick={() => onReorderBoard(index, index - 1)}
+          onClick={() => void onReorderBoard(index, index - 1)}
           disabled={!canMoveLeft}
           aria-label="Move column left"
         >
@@ -71,7 +80,7 @@ const BoardColumn = ({
         <button
           type="button"
           className={s.moveButton}
-          onClick={() => onReorderBoard(index, index + 1)}
+          onClick={() => void onReorderBoard(index, index + 1)}
           disabled={!canMoveRight}
           aria-label="Move column right"
         >

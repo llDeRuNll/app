@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Modal from "../Modal/Modal";
 import s from "./ConfirmModal.module.css";
 
@@ -7,7 +8,7 @@ interface ConfirmModalProps {
   message: string;
   confirmText?: string;
   cancelText?: string;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onCancel: () => void;
 }
 
@@ -20,17 +21,50 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
 }: ConfirmModalProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleConfirm = async () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await onConfirm();
+    } catch (error) {
+      console.error("Confirm action failed:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
-    <Modal isOpen={isOpen} title={title} onClose={onCancel}>
+    <Modal
+      isOpen={isOpen}
+      title={title}
+      onClose={isSubmitting ? () => undefined : onCancel}
+    >
       <p className={s.message}>{message}</p>
 
       <div className={s.actions}>
-        <button type="button" className={s.cancelButton} onClick={onCancel}>
+        <button
+          type="button"
+          className={s.cancelButton}
+          onClick={onCancel}
+          disabled={isSubmitting}
+        >
           {cancelText}
         </button>
 
-        <button type="button" className={s.confirmButton} onClick={onConfirm}>
-          {confirmText}
+        <button
+          type="button"
+          className={s.confirmButton}
+          onClick={() => {
+            void handleConfirm();
+          }}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Please wait..." : confirmText}
         </button>
       </div>
     </Modal>

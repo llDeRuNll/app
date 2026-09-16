@@ -7,6 +7,8 @@ import {
   CreateBoardPopup,
   EditBoardPopup,
   DeleteBoardPopup,
+  EditTaskPopup,
+  DeleteTaskPopup,
 } from "./WorkspacePopups";
 
 export const PopupType = {
@@ -16,6 +18,8 @@ export const PopupType = {
   CREATE_BOARD: "create-board",
   EDIT_BOARD: "edit-board",
   DELETE_BOARD: "delete-board",
+  EDIT_TASK: "edit-task",
+  DELETE_TASK: "delete-task",
 } as const;
 
 export type PopupType = (typeof PopupType)[keyof typeof PopupType];
@@ -23,6 +27,7 @@ export type PopupType = (typeof PopupType)[keyof typeof PopupType];
 export interface PopupMetadata {
   workspaceId?: string;
   boardId?: string;
+  taskId?: string;
 }
 
 export const popupTypeComponentMap: Record<PopupType, ReactNode> = {
@@ -33,4 +38,7 @@ export const popupTypeComponentMap: Record<PopupType, ReactNode> = {
   [PopupType.CREATE_BOARD]: <CreateBoardPopup />,
   [PopupType.EDIT_BOARD]: <EditBoardPopup />,
   [PopupType.DELETE_BOARD]: <DeleteBoardPopup />,
+
+  [PopupType.EDIT_TASK]: <EditTaskPopup />,
+  [PopupType.DELETE_TASK]: <DeleteTaskPopup />,
 };
