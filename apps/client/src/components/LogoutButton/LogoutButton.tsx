@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "../../services/authService";
 import { useAuthStore } from "../../stores/authStore";
 import s from "./LogoutButton.module.css";
+import useWorkspaceStore from "../../stores/workspaceStore";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
 
   const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const resetWorkspace = useWorkspaceStore((state) => state.reset);
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -21,6 +24,7 @@ const LogoutButton = () => {
     try {
       await authService.logout();
 
+      resetWorkspace();
       clearAuth();
 
       navigate("/login", {

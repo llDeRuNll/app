@@ -12,6 +12,7 @@ interface WorkspaceStore {
   data: WorkspaceStoreData;
   isLoading: boolean;
   error: string | null;
+  reset: () => void;
   loadWorkspaces: () => Promise<void>;
   loadWorkspace: (workspaceId: string) => Promise<void>;
   addWorkspace: (name: string) => Promise<void>;
@@ -59,13 +60,26 @@ function summaryToWorkspace(workspace: WorkspaceSummary): Workspace {
   };
 }
 
-const useWorkspaceStore = create<WorkspaceStore>((set, get) => ({
+const initialState = {
   data: {
     workspaces: [],
   },
-
   isLoading: false,
   error: null,
+} satisfies Pick<WorkspaceStore, "data" | "isLoading" | "error">;
+
+const useWorkspaceStore = create<WorkspaceStore>((set, get) => ({
+  ...initialState,
+
+  reset: () => {
+    set({
+      data: {
+        workspaces: [],
+      },
+      isLoading: false,
+      error: null,
+    });
+  },
 
   loadWorkspaces: async () => {
     set({

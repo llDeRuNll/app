@@ -10,11 +10,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../services/authService";
 import s from "./RegisterPage.module.css";
 import axios from "axios";
+import useWorkspaceStore from "../../stores/workspaceStore";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
 
   const setAuth = useAuthStore((state) => state.setAuth);
+
+  const resetWorkspace = useWorkspaceStore((state) => state.reset);
 
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -32,6 +35,7 @@ const RegisterPage = () => {
     try {
       const result = await authService.register(data);
 
+      resetWorkspace();
       setAuth(result.user, result.accessToken);
 
       navigate("/", {
