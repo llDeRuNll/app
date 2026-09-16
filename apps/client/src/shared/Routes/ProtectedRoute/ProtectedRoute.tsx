@@ -4,8 +4,6 @@ import { useAuthStore } from "../../../stores/authStore";
 const ProtectedRoute = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  const isInitialized = useAuthStore((state) => state.isInitialized);
-
   const location = useLocation();
 
   if (!isAuthenticated) {

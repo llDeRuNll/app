@@ -1,5 +1,4 @@
 import s from "./WorkspacePage.module.css";
-
 import useWorkspaceSelection from "../../hooks/useWorkspaceSelection";
 import useWorkspaceStore from "../../stores/workspaceStore";
 import useWorkspaceActions from "../../hooks/useWorkspaceActions";
@@ -8,12 +7,20 @@ import WorkspaceList from "../../components/WorkspaceList/WorkspaceList";
 import WorkSpaceView from "../../components/WorkspaceView/WorkspaceView";
 import Loader from "../../shared/Loader/Loader";
 import { useEffect } from "react";
+import { useAuthStore } from "../../stores/authStore";
+import LogoutButton from "../../components/LogoutButton/LogoutButton";
 
 const WorkspacePage = () => {
   const workspaces = useWorkspaceStore((state) => state.data.workspaces);
 
   const { selectedWorkspaceId, selectedWorkspace, selectWorkspace } =
     useWorkspaceSelection(workspaces);
+
+  const user = useAuthStore((state) => state.user);
+
+  const isOwner = Boolean(
+    selectedWorkspace && user && selectedWorkspace.ownerId === user.id,
+  );
 
   const loadWorkspaces = useWorkspaceStore((state) => state.loadWorkspaces);
 
@@ -57,41 +64,47 @@ const WorkspacePage = () => {
 
   return (
     <div className={s.workspacePage}>
-      <div className={s.actions}>
-        <button
-          type="button"
-          className={`${s.actionButton} ${s.primaryButton}`}
-          onClick={handleCreateWorkspace}
-        >
-          Add workspace
-        </button>
+      <div className={s.topBar}>
+        <div className={s.actions}>
+          <button
+            type="button"
+            className={`${s.actionButton} ${s.primaryButton}`}
+            onClick={handleCreateWorkspace}
+          >
+            Add workspace
+          </button>
 
-        <button
-          type="button"
-          className={`${s.actionButton} ${s.primaryButton}`}
-          onClick={handleCreateBoard}
-          disabled={!selectedWorkspace}
-        >
-          Add column
-        </button>
+          <button
+            type="button"
+            className={`${s.actionButton} ${s.primaryButton}`}
+            onClick={handleCreateBoard}
+            disabled={!selectedWorkspace}
+          >
+            Add column
+          </button>
+          {isOwner && (
+            <>
+              <button
+                type="button"
+                className={`${s.actionButton} ${s.secondaryButton}`}
+                onClick={handleEditWorkspace}
+                disabled={!selectedWorkspace}
+              >
+                Edit workspace
+              </button>
 
-        <button
-          type="button"
-          className={`${s.actionButton} ${s.secondaryButton}`}
-          onClick={handleEditWorkspace}
-          disabled={!selectedWorkspace}
-        >
-          Edit workspace
-        </button>
-
-        <button
-          type="button"
-          className={`${s.actionButton} ${s.dangerButton}`}
-          onClick={handleDeleteWorkspace}
-          disabled={!selectedWorkspace}
-        >
-          Delete workspace
-        </button>
+              <button
+                type="button"
+                className={`${s.actionButton} ${s.dangerButton}`}
+                onClick={handleDeleteWorkspace}
+                disabled={!selectedWorkspace}
+              >
+                Delete workspace
+              </button>
+            </>
+          )}
+        </div>
+        <LogoutButton />
       </div>
       <WorkspaceList
         workspaces={workspaces}
@@ -107,6 +120,7 @@ const WorkspacePage = () => {
           onAddTask={handleAddTask}
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
+          isOwner={isOwner}
         />
       )}
 

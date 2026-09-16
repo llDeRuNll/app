@@ -5,6 +5,7 @@ import { restoreSession } from "./services/httpClient";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "./shared/Routes/ProtectedRoute/ProtectedRoute";
 import Loader from "./shared/Loader/Loader";
+import RestrictedRoute from "./shared/Routes/RestrictedRoute/RestrictedRoute";
 const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage/RegisterPage"));
 const WorkspacePage = lazy(() => import("./pages/WorkspacePage/WorkspacePage"));
@@ -22,8 +23,10 @@ function App() {
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<RestrictedRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<WorkspacePage />} />

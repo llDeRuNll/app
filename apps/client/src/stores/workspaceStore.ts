@@ -47,12 +47,15 @@ interface WorkspaceStore {
     boardId: string,
     title: string,
   ) => Promise<void>;
+  addMember: (workspaceId: string, email: string) => Promise<void>;
+  removeMember: (workspaceId: string, userId: string) => Promise<void>;
 }
 
 function summaryToWorkspace(workspace: WorkspaceSummary): Workspace {
   return {
     ...workspace,
     boards: [],
+    members: [],
   };
 }
 
@@ -331,6 +334,34 @@ const useWorkspaceStore = create<WorkspaceStore>((set, get) => ({
                 ),
               }
             : workspace,
+        ),
+      },
+    }));
+  },
+
+  addMember: async (workspaceId, email) => {
+    await workspaceService.addMember(workspaceId, email);
+
+    const workspace = await workspaceService.getById(workspaceId);
+
+    set((state) => ({
+      data: {
+        workspaces: state.data.workspaces.map((currentWorkspace) =>
+          currentWorkspace.id === workspaceId ? workspace : currentWorkspace,
+        ),
+      },
+    }));
+  },
+
+  removeMember: async (workspaceId, userId) => {
+    await workspaceService.removeMember(workspaceId, userId);
+
+    const workspace = await workspaceService.getById(workspaceId);
+
+    set((state) => ({
+      data: {
+        workspaces: state.data.workspaces.map((currentWorkspace) =>
+          currentWorkspace.id === workspaceId ? workspace : currentWorkspace,
         ),
       },
     }));

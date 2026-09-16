@@ -21,13 +21,32 @@ export class WorkspacesService {
 
   async findOne(workspaceId: string, userId: string) {
     await this.workspaceAccessService.requireAccess(workspaceId, userId);
-    return this.prisma.db.orm.public.Workspace.include('boards', (boards) =>
-      boards.orderBy((board) => board.position.asc()).include('tasks'),
+    const workspace = await this.prisma.db.orm.public.Workspace.include(
+      'boards',
+      (boards) =>
+        boards.orderBy((board) => board.position.asc()).include('tasks'),
     )
+      .include('members', (members) => members.include('user'))
       .where({
         id: workspaceId,
       })
       .first();
+
+    if (!workspace) {
+      throw new NotFoundException('Workspace not found');
+    }
+
+    const { members, ...workspaceData } = workspace;
+
+    return {
+      ...workspaceData,
+
+      members: members.map((member) => ({
+        userId: member.userId,
+        email: member.user.email,
+        createdAt: member.createdAt,
+      })),
+    };
   }
 
   create(name: string, userId: string) {
