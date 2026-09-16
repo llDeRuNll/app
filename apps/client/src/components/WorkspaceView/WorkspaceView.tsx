@@ -2,7 +2,7 @@ import { memo } from "react";
 import type { Workspace } from "../../types/workspace";
 import BoardColumn from "../BoardColumn/BoardColumn";
 import s from "./WorkspaceView.module.css";
-import WorkspaceMembers from "../WorkspaceMemebers/WorkspaceMembers";
+import WorkspaceMembers from "../WorkspaceMembers/WorkspaceMembers";
 
 interface WorkspaceViewProps {
   workspace: Workspace;
