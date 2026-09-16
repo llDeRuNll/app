@@ -8,6 +8,7 @@ interface NameFormModalProps {
   title: string;
   initialValue?: string;
   submitText: string;
+  placeholder?: string;
   confirmText: string;
   confirmMessage: (name: string) => string;
   schema: NameFormSchema;
@@ -21,6 +22,7 @@ const NameFormModal = ({
   initialValue = "",
   submitText,
   confirmText,
+  placeholder = "Enter name",
   confirmMessage,
   schema,
   onConfirm,
@@ -59,6 +61,7 @@ const NameFormModal = ({
         <NameForm
           initialValue={initialValue}
           submitText={submitText}
+          placeholder={placeholder}
           schema={schema}
           onSubmit={handleSubmit}
         />
